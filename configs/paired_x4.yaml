@@ -1,0 +1,48 @@
+seed: 42
+
+model:
+  scale: 4
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 50
+  num_grow_ch: 32
+  kernel_sizes: [3, 5, 7]
+  enable_scale_attn: false
+  global_block_type: ssgm
+  global_res_scale: 0.1
+  window_size: 8
+  num_heads: 4
+  d_state: 16
+
+normalization:
+  mean: [0.5, 0.5, 0.5]
+  std: [0.5, 0.5, 0.5]
+
+data:
+  mode: paired
+  num_workers: 4
+  train:
+    lr_dir: datasets/SEN2NAIP/train/LR
+    hr_dir: datasets/SEN2NAIP/train/HR
+    lr_patch_size: 64
+    batch_size: 4
+  val:
+    lr_dir: datasets/SEN2NAIP/val/LR
+    hr_dir: datasets/SEN2NAIP/val/HR
+    batch_size: 1
+  test:
+    lr_dir: datasets/SEN2NAIP/test/LR
+    hr_dir: datasets/SEN2NAIP/test/HR
+    batch_size: 1
+
+training:
+  epochs: 1000
+  amp: true
+  save_every: 100
+  early_stop_patience: 200
+  optimizer:
+    lr: 0.0001
+    betas: [0.9, 0.999]
+    milestones: [200, 400, 600, 800]
+    gamma: 0.5
